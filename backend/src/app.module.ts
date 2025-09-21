@@ -1,11 +1,20 @@
-// TODO: Add imports when implementing
-// TODO: Add NestJS decorators when implementing
-// TODO: Add authentication module
-// TODO: Add logging module
-// TODO: Add health check module
-// TODO: Add rate limiting
-// TODO: Add database configuration
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { BooksModule } from './books/books.module';
+import { AuthModule } from './auth/auth.module';
+import { databaseConfig } from './config/database.config';
 
-export class AppModule {
-  // TODO: Add module configuration
-}
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot(databaseConfig),
+    BooksModule,
+    AuthModule,
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule { }
