@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    depends_on:
+      - backend
+    networks:
+      - book-library-network
+    stdin_open: true
+    tty: true
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./backend/uploads:/app/uploads
+      - ./backend/db.sqlite:/app/db.sqlite
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - SQLITE_DB=db.sqlite
+      - TOKEN_SECRET=dev-secret-key-change-in-production
+      - UPLOAD_PATH=./uploads
+    networks:
+      - book-library-network
+    stdin_open: true
+    tty: true
+
+networks:
+  book-library-network:
+    driver: bridge
+
+volumes:
+  frontend_node_modules:
+  backend_node_modules:
