@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Menu, LogOut, Home, Book, BookOpen, History } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -74,23 +76,27 @@ const Navbar = () => {
 
 
 
-            {/* Borrowed Books Icon */}
-            <button
-              onClick={handleBorrowedBooksClick}
-              className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all duration-200"
-              title="หนังสือที่ถูกยืมอยู่"
-            >
-              <BookOpen size={20} />
-            </button>
+            {/* Borrowed Books Icon - Admin Only */}
+            {user?.role === 'admin' && (
+              <button
+                onClick={handleBorrowedBooksClick}
+                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all duration-200"
+                title="หนังสือที่ถูกยืมอยู่"
+              >
+                <BookOpen size={20} />
+              </button>
+            )}
 
-            {/* Return History Icon */}
-            <button
-              onClick={handleReturnHistoryClick}
-              className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all duration-200"
-              title="ประวัติการคืนหนังสือ"
-            >
-              <History size={20} />
-            </button>
+            {/* Return History Icon - Admin Only */}
+            {user?.role === 'admin' && (
+              <button
+                onClick={handleReturnHistoryClick}
+                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all duration-200"
+                title="ประวัติการคืนหนังสือ"
+              >
+                <History size={20} />
+              </button>
+            )}
 
             {/* Menu (Mobile) */}
             <button className="md:hidden p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-all duration-200">
