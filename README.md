@@ -81,12 +81,28 @@ npm run dev
 
 ### การตั้งค่าฐานข้อมูล
 
-ฐานข้อมูล SQLite จะถูกสร้างอัตโนมัติเมื่อรัน backend ครั้งแรก สามารถเพิ่มข้อมูลตัวอย่างได้ด้วย:
+**สำหรับคนที่ pull code มา**
 
+ระบบใช้ **SQLite** ซึ่งเป็น file-based database ที่ไม่ต้องติดตั้งเซิร์ฟเวอร์แยก:
+
+#### การทำงานของ Database:
+- **สร้างอัตโนมัติ**: ไฟล์ `db.sqlite` จะถูกสร้างใน root directory เมื่อรัน backend ครั้งแรก
+- **Schema อัตโนมัติ**: TypeORM จะสร้าง tables และ columns ตาม entities โดยอัตโนมัติ (`synchronize: true`)
+
+#### ขั้นตอนสำหรับคนใหม่:
+1. `git clone` และ `cd book`
+2. `npm install` (หรือ `docker-compose up`)
+3. `npm run dev` 
+4. **เสร็จแล้ว!** Database จะพร้อมใช้งาน
+
+#### เพิ่มข้อมูลตัวอย่าง (ไม่บังคับ):
 ```bash
 cd backend
 npm run seed
+** book/backend/database/seed.ts ** สำหรับแก้ไข Mock
 ```
+
+**หมายเหตุ**: ไฟล์ `db.sqlite` จะถูกสร้างใหม่ทุกครั้งที่ลบและรันใหม่
 
 ## เอกสาร API
 
